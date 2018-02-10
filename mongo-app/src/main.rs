@@ -2,79 +2,42 @@
 #![plugin(rocket_codegen)]
 //#[macro_use]
 
+mod mongo_utils;
+
 extern crate rocket;
 extern crate rocket_contrib;
+use rocket::{State}; // Rocket
+use rocket::response::content;
 
-//extern crate rustc_serialize;
 use std::sync::Mutex;
 
 //#[macro_use(bson, doc)]
-extern crate bson;
 extern crate mongodb;
-extern crate serde_json;
-
-use mongodb::{Client, ThreadedClient, Result};
+use mongodb::{Client, ThreadedClient};
 use mongodb::db::ThreadedDatabase;
 //use mongodb::error::Result as MongoResult;
-use mongodb::cursor::Cursor;
-
-use serde_json::Value;
-
-use bson::Bson;
-
-//use bson::{ Bson, Document };
-// use bson::oid::ObjectId;
-
-//use rustc_serialize::json::{Json, ToJson};
-
-//use rocket_contrib::Json;
-
-// #[derive(RustcDecodable, RustcEncodable)]
-// struct User {
-//     firstname: String,
-//     lastname: String,
-//     email: String
-// }
-
-// fn get_data_string(result: MongoResult<Document>) -> Result<Json, String> {
-//     match result {
-//         Ok(doc) => Ok(Bson::Document(doc).to_json()),
-//         Err(e) => Err(format!("{}", e))
-//     }
-// }
 
 type DbConn = Mutex<Client>;
-use rocket::{State}; // Rocket
 
-fn json_value_from_cursor(cursor: Cursor) -> Result<Value> {
-    let jsons: Result<Vec<Value>> = cursor
-        .map(|doc| {
-            let json: Value = Bson::Document(doc?).into();
-            Ok(json)
-        })
-        .collect();
-
-    Ok(jsons.map(Value::Array)?)
-}
-
+// #[get("/")] fn index() -> &'static str {
 // #[get("/", format = "application/json")] - para cuando piden json
-#[get("/")]
-fn index(client: State<DbConn>) -> String {
-    //fn index() -> &'static str {
-    let agentes = client.lock()
-        .expect("db connection lock")
+// #[get("/")] fn index(client: State<DbConn>) -> String { // content-type text/plain
+#[get("/")] fn index(client: State<DbConn>) -> content::Json<String> {
+    
+    let agentes = client.lock().expect("db connection lock")
         .db("cursonode").collection("agentes");
-    //let agentes = client.db("cursonode").collection("agentes");
-    let cursor = agentes.find(None, None)
-        //.ok().expect("Failed to execute find.");
-        .unwrap();
 
-    //"Hello, world!"
+    let cursor = agentes.find(None, None) //.unwrap();
+        .ok().expect("Failed to execute find.");
 
-    let json = json_value_from_cursor(cursor).expect("Unable to receive all documents from cursor");
-    let result = format!("{}", json);
-
-    result
+    // let json = mongo_utils::serde::json_value_from_cursor(cursor)
+    //             .expect("Unable to receive all documents from cursor");
+    // json.to_string()
+    //let result = format!("{}", json);
+    
+    let result: String = mongo_utils::serde::json_string_from_cursor(cursor);
+    
+    content::Json(result)
 }
 
 fn main() {
