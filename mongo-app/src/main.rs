@@ -44,7 +44,7 @@ use bson::Bson;
 // }
 
 type DbConn = Mutex<Client>;
-use rocket::{Rocket, State};
+use rocket::{State}; // Rocket
 
 fn json_value_from_cursor(cursor: Cursor) -> Result<Value> {
     let jsons: Result<Vec<Value>> = cursor

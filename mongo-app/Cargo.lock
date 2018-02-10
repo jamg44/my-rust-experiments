@@ -109,19 +109,6 @@ version = "0.3.54"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
-name = "mongo-app"
-version = "0.1.0"
-dependencies = [
- "bson 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "mongodb 0.3.7 (registry+https://github.com/rust-lang/crates.io-index)",
- "rocket 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)",
- "rocket_codegen 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)",
- "rocket_contrib 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)",
- "rustc-serialize 0.3.24 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_json 1.0.9 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
 name = "hex"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -253,6 +240,19 @@ version = "0.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "log 0.3.9 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "mongo-app"
+version = "0.1.0"
+dependencies = [
+ "bson 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mongodb 0.3.7 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rocket 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rocket_codegen 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rocket_contrib 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rustc-serialize 0.3.24 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.9 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
