@@ -1,0 +1,6 @@
+[package]
+name = "modules"
+version = "0.1.0"
+authors = ["Javi Miguel <jamg44@gmail.com>"]
+
+[dependencies]
